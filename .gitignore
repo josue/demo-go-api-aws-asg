@@ -1,0 +1,5 @@
+ssh_keys/*
+api/bin
+api/coverage.out
+.terraform/*
+terraform.tfstate*

@@ -1,0 +1,42 @@
+{
+    "sensitive-variables": ["aws_access_key", "aws_secret_key"],
+    "builders": [
+        {
+            "access_key": "{{user `aws_access_key`}}",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "ami_name": "{{user `ami_name`}}",
+            "instance_type": "{{user `instance_type`}}",
+            "region": "{{user `region`}}",
+            "tags": {
+                "Name": "{{user `tag_name`}}",
+                "Release": "{{user `tag_release`}}"
+            },
+            "ssh_username": "admin",
+            "type": "amazon-ebs",
+            "source_ami_filter": {
+              "filters": {
+                "name": "debian-stretch-hvm-x86_64-gp2*"
+              },
+              "owners": ["099720109477","379101102735"],
+              "most_recent": true
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "./api/bin/app",
+            "destination": "/tmp/app"
+        },
+        {
+            "type": "file",
+            "source": "./infras/config/supervisord/app.conf",
+            "destination": "/tmp/supervisord_app.conf"
+        },
+        {
+            "type": "shell",
+            "execute_command": "echo 'root' | sudo -E -S bash '{{ .Path }}'",
+            "script": "./infras/scripts/provision_ami.sh"
+        }
+    ]
+}

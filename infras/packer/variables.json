@@ -1,0 +1,9 @@
+{
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "region":         "{{env `AWS_REGION`}}",
+    "instance_type":  "t2.micro",
+    "ami_name":       "api-{{timestamp}}",
+    "tag_name":       "API - {{isotime \"2006-01-02\"}}",
+    "tag_release":    "api-latest"
+}
